@@ -2,7 +2,7 @@ FROM gaozhi/php7-fpm-phalcon3
 
 RUN \
     apt-get update && \
-    apt-get install -y libgearman-dev tesseract-ocr libglib2.0-dev libcurl4-openssl-dev cron imagemagick
+    apt-get install -y libgearman-dev tesseract-ocr libglib2.0-dev libcurl4-openssl-dev cron imagemagick libc-client-dev libkrb5-dev
 
 RUN \
     cd /tmp && \
@@ -17,6 +17,10 @@ RUN \
     pecl install mongodb && \
     docker-php-ext-enable mongodb && \
     pecl clear-cache
+
+RUN \
+    docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
+    docker-php-ext-install imap
 
 RUN \
     cd /tmp && \
