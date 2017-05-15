@@ -16,6 +16,8 @@ RUN \
 RUN \
     pecl install mongodb && \
     docker-php-ext-enable mongodb && \
+    pecl install mailparse && \
+    docker-php-ext-enable mailparse && \
     pecl clear-cache
 
 RUN \
