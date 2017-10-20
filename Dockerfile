@@ -1,4 +1,4 @@
-FROM gaozhi/php7-fpm-phalcon3
+FROM gaozhi/php7-fpm-phalcon3:7.1
 
 RUN \
     apt-get update && \
