@@ -2,7 +2,7 @@ FROM gaozhi/php7-fpm-phalcon3:7.2
 
 RUN \
     apt-get update && \
-    apt-get install -y libgearman-dev tesseract-ocr libglib2.0-dev libcurl4-openssl-dev cron imagemagick libc-client-dev libkrb5-dev
+    apt-get install -y libgearman-dev tesseract-ocr libglib2.0-dev libcurl4-openssl-dev cron imagemagick libc-client-dev libkrb5-dev ffmpeg
 
 RUN \
     cd /tmp && \
