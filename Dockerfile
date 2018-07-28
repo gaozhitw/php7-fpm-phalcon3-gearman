@@ -26,14 +26,14 @@ RUN \
 
 RUN \
     cd /tmp && \
-    curl -L 'https://megatools.megous.com/builds/megatools-1.10.0-rc1.tar.gz' > megatools-1.10.0-rc1.tar.gz && \
-    tar -zxf megatools-1.10.0-rc1.tar.gz && \
-    cd megatools-1.10.0-rc1 && \
+    curl -L 'https://megatools.megous.com/builds/megatools-1.10.1.tar.gz' > megatools-1.10.1.tar.gz && \
+    tar -zxf megatools-1.10.1.tar.gz && \
+    cd megatools-1.10.1 && \
     ./configure --disable-docs && \
     make && make install && \
     chmod ug+s /usr/local/bin/mega* && \
-    rm -rf /tmp/megatools-1.10.0-rc1 && \
-    rm /tmp/megatools-1.10.0-rc1.tar.gz && \
+    rm -rf /tmp/megatools-1.10.1 && \
+    rm /tmp/megatools-1.10.1.tar.gz && \
     apt-get clean && \
     rm -rf /var/lib/apt/list/*
 
