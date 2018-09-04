@@ -1,8 +1,12 @@
-FROM gaozhi/php7-fpm-phalcon3
+FROM gaozhi/php7-fpm-phalcon3:7.2
 
 RUN \
     apt-get update && \
-    apt-get install -y libgearman-dev tesseract-ocr libglib2.0-dev libcurl4-openssl-dev cron imagemagick libc-client-dev libkrb5-dev
+    apt-get install -y libgearman-dev tesseract-ocr cron imagemagick libc-client-dev libkrb5-dev ffmpeg
+
+RUN \
+    docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
+    docker-php-ext-install imap
 
 RUN \
     cd /tmp && \
@@ -11,7 +15,8 @@ RUN \
     phpize && \
     ./configure && \
     make && make install && \
-    rm -rf /tmp/pecl-gearman
+    rm -rf /tmp/pecl-gearman && \
+    docker-php-ext-enable gearman
 
 RUN \
     pecl install mongodb && \
@@ -21,28 +26,8 @@ RUN \
     pecl clear-cache
 
 RUN \
-    docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
-    docker-php-ext-install imap
-
-RUN \
-    cd /tmp && \
-    curl -L 'https://megatools.megous.com/builds/megatools-1.9.98.tar.gz' > megatools-1.9.98.tar.gz && \
-    tar -zxf megatools-1.9.98.tar.gz && \
-    cd megatools-1.9.98 && \
-    ./configure --disable-docs && \
-    make && make install && \
-    chmod ug+s /usr/local/bin/mega* && \
-    rm -rf /tmp/megatools-1.9.98 && \
-    rm /tmp/megatools-1.9.98.tar.gz && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/list/*
-
-RUN \
-    docker-php-ext-enable gearman.so && \
     mkdir -p ${HOME}/php-default-conf && \
     cp -R /usr/local/etc/* ${HOME}/php-default-conf
-
-VOLUME ["/var/spool/cron/crontabs", "/var/www", "/usr/local/etc"]
 
 ADD ["./docker-entrypoint.sh", "/root/"]
 
